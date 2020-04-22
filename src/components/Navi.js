@@ -1,16 +1,23 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
+import React, { Fragment,Component } from 'react';
+import { connect } from 'react-redux';
+import { NavLink, Link } from 'react-router-dom';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
+import Avatar from "./Avatar";
+import {reSetAuthedUser} from "../actions/authedUser";
 
-class Nav extends Component {
+class Navi extends Component {
     render() {
+        const { user, dispatch } = this.props;
+        const handleLogout = () => {
+            dispatch(reSetAuthedUser());
+        };
+
         return (
             <Fragment>
                 <Navbar expand="lg" bg="light" variant="light" className="my-3 border">
-                    <Navbar.Brand as={Link} to="/">
-                        <h2>
-                            <small>WYR...?</small>
-                        </h2>
-                    </Navbar.Brand>
+
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
@@ -25,7 +32,7 @@ class Nav extends Component {
                             </Nav.Link>
                         </Nav>
                         <Nav className="align-items-start">
-                            <Navbar.Text>{user.name}</Navbar.Text>
+                            <Navbar.Text>Hello, {user.name}</Navbar.Text>
                             <Avatar avatarURL={user.avatarURL} className="mx-3" />
                             <Button
                                 variant="outline-dark"
@@ -46,4 +53,4 @@ function mapStateToProps({ users, authedUser }) {
         user: users[authedUser]
     };
 }
-export default connect(mapStateToProps)(Nav);
+export default connect(mapStateToProps)(Navi);
