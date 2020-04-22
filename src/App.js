@@ -1,20 +1,30 @@
-import React,{Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
-import {handleInitialData} from "../actions/shared";
+import {handleInitialData} from "./actions/shared";
+import Login from "./components/Login";
+import Home from "./components/Home";
 
 
 class App extends Component {
 
-  componentDidMount() {
-    this.props.dispatch(handleInitialData())
-  }
+    componentDidMount() {
+        this.props.dispatch(handleInitialData());
+    }
+
+
 render() {
+    const { authedUser} = this.props;
+
   return(
-      <div>
-        Hallo
-      </div>
+      <Fragment>{!authedUser ? <Login /> : <Home />}</Fragment>
+
   )
 }
 }
+function mapStateToProps({ authedUser }) {
+    return {
+        authedUser
+    };
+}
 
-export default connect()(App);
+export default connect(mapStateToProps)(App);
